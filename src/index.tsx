@@ -12,7 +12,6 @@ import theme from 'assets/theme';
 
 const queryClient = new QueryClient();
 
-
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
@@ -23,7 +22,6 @@ ReactDOM.render(
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>,
-
 
   document.getElementById('root')
 );
