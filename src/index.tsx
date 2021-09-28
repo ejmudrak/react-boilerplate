@@ -18,7 +18,6 @@ ReactDOM.render(
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
 
-
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
