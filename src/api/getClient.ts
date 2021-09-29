@@ -13,7 +13,7 @@ export default function getClient() {
     },
     responseType: 'json',
 
-    paramsSerializer: params => {
+    paramsSerializer: (params) => {
       let objParams = params;
       if (params instanceof URLSearchParams)
         objParams = qs.parse(params.toString());
