@@ -11,20 +11,32 @@ import styled from '@emotion/styled';
 
 // components
 import {
-  Button,
+  IconButton,
   Grid,
   CircularProgress,
   List,
   ListItem,
   ListItemText,
+  ListItemSecondaryAction,
   ListSubheader,
 } from '@mui/material';
 
+import { LoadingButton } from '@mui/lab';
+
+import { Delete } from '@mui/icons-material';
+
 // api
-import { useUsersQuery } from 'api/users';
+import {
+  useUsersQuery,
+  useCreateUserMutation,
+  useDeleteUserMutation,
+} from 'api/users';
 
 function App() {
+  // RQ initializations
   const { data = [], isLoading: isQuerying } = useUsersQuery();
+  const { mutate: createUser, isLoading: isCreating } = useCreateUserMutation();
+  const { mutate: deleteUser, isLoading: isDeleting } = useDeleteUserMutation();
 
   // Styled example that use props. Using `styled` allows you to target html elements
   const ListWrapper = styled('div')((props) => ({
@@ -49,30 +61,47 @@ function App() {
             ) : (
               <ListWrapper>
                 <List>
-                  <ListSubheader
-                    sx={{
-                      background: 'none',
-                      color: 'white',
-                      borderBottom: '1px solid #ffffff80',
-                    }}
-                  >
-                    Users
-                  </ListSubheader>
+                  <ListSubheader css={listSubheader}>Users</ListSubheader>
 
                   {data?.map((item: User) => (
                     <ListItem key={item.id} sx={{ textAlign: 'center' }}>
                       <ListItemText>
                         {item.first_name} {item.last_name}
                       </ListItemText>
+
+                      <ListItemSecondaryAction
+                        onClick={() => deleteUser(item.id)}
+                      >
+                        {isDeleting ? (
+                          <CircularProgress size={24} />
+                        ) : (
+                          <IconButton color='error'>
+                            <Delete />
+                          </IconButton>
+                        )}
+                      </ListItemSecondaryAction>
                     </ListItem>
                   ))}
                 </List>
               </ListWrapper>
             )}
+
+            <Grid container spacing={2} justifyContent='center'>
+              <Grid item xs={6}>
+                <LoadingButton
+                  variant='outlined'
+                  color='primary'
+                  loading={isCreating}
+                  onClick={() =>
+                    createUser({ name: 'Ted Lasso', job: 'Coach' })
+                  }
+                >
+                  Add User
+                </LoadingButton>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-
-        <Button variant='contained'>Learn React</Button>
       </header>
     </div>
   );
@@ -117,6 +146,12 @@ const appLogo = css`
   @media (prefers-reduced-motion: no-preference) {
     animation: ${spin} infinite 20s linear;
   }
+`;
+
+const listSubheader = css`
+  background: none;
+  color: white;
+  border-bottom: 1px solid #ffffff80;
 `;
 
 export default App;
