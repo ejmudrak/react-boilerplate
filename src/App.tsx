@@ -1,42 +1,25 @@
 // JS Pragma: enables css prop: https://emotion.sh/docs/css-prop
 /** @jsxImportSource @emotion/react */
 
-import React from 'react';
 import logo from './logo.svg';
-
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 // or, import via:
 // import { styled } from '@mui/system';
 
 // components
-import {
-  IconButton,
-  Grid,
-  CircularProgress,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  ListSubheader,
-} from '@mui/material';
+import { Grid, CircularProgress, List, ListSubheader } from '@mui/material';
 
 import { LoadingButton } from '@mui/lab';
-
-import { Delete } from '@mui/icons-material';
+import ListItem from 'components/ListItem';
 
 // api
-import {
-  useUsersQuery,
-  useCreateUserMutation,
-  useDeleteUserMutation,
-} from 'api/users';
+import { useUsersQuery, useCreateUserMutation } from 'api/users';
 
-function App() {
+export default function App() {
   // RQ initializations
   const { data = [], isLoading: isQuerying } = useUsersQuery();
   const { mutate: createUser, isLoading: isCreating } = useCreateUserMutation();
-  const { mutate: deleteUser, isLoading: isDeleting } = useDeleteUserMutation();
 
   // Styled example that use props. Using `styled` allows you to target html elements
   const ListWrapper = styled('div')((props) => ({
@@ -64,23 +47,7 @@ function App() {
                   <ListSubheader css={listSubheader}>Users</ListSubheader>
 
                   {data?.map((item: User) => (
-                    <ListItem key={item.id} sx={{ textAlign: 'center' }}>
-                      <ListItemText>
-                        {item.first_name} {item.last_name}
-                      </ListItemText>
-
-                      <ListItemSecondaryAction
-                        onClick={() => deleteUser(item.id)}
-                      >
-                        {isDeleting ? (
-                          <CircularProgress size={24} />
-                        ) : (
-                          <IconButton color='error'>
-                            <Delete />
-                          </IconButton>
-                        )}
-                      </ListItemSecondaryAction>
-                    </ListItem>
+                    <ListItem item={item} key={item.id} />
                   ))}
                 </List>
               </ListWrapper>
@@ -153,5 +120,3 @@ const listSubheader = css`
   color: white;
   border-bottom: 1px solid #ffffff80;
 `;
-
-export default App;
