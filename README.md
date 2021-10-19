@@ -28,14 +28,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### Create a `.env` file
-
-Add the following to a file titled `.env` in the repo's root directory to set up test API calls
-
-```
-REACT_APP_BASE_API_URL = https://reqres.in/api
-```
-
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
